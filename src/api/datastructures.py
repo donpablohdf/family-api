@@ -7,14 +7,14 @@ update this file to implement the following already declared methods:
 - get_member: Should return a member from the self._members list
 """
 from random import randint
+from flask import jsonify
+from models import db, Family
 
 class FamilyStructure:
     def __init__(self, last_name):
         self.last_name = last_name
 
-        # example list of members
-        self._members = []
-
+       
     # read-only: Use this method to generate random members ID's when adding members into the list
     def _generateId(self):
         return randint(0, 99999999)
@@ -33,4 +33,8 @@ class FamilyStructure:
 
     # this method is done, it returns a list with all the family members
     def get_all_members(self):
-        return self._members
+        members = Family.get_all()
+        if members:
+            all_members = [family.serialize() for family in members]
+            return all_members
+        return {"message":"Error al recuperar Family"}
