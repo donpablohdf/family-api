@@ -10,7 +10,6 @@ export const Home = () => {
 
 
 	useEffect(() => {
-		// Pido a éste una promesa
 		if (!store.hasOwnProperty("members")) { //comprueba si existe en el store
 			const cumplePromesa = () => {
 				return new Promise((resolve, reject) => {
@@ -19,8 +18,6 @@ export const Home = () => {
 			}
 			cumplePromesa().then((datos) => { 
 				setItemsMenu(datos)
-				
-
 			}
 			)
 		} else {
@@ -28,7 +25,6 @@ export const Home = () => {
 			setItemsMenu(store.members)
 		}
 	}, [])
-	console.log(itemsMenu)
 
 	return (
 		<>
@@ -42,7 +38,6 @@ export const Home = () => {
 								<li key={index} className="d-flex justify-content-betweenp-0 m-0">
 
 									<Link className="dropdown-item d-flex gap-2 align-items-end ps-4 py-4" to={"/member/" + opcion.id}>
-										{/* <i class='fab fa-galactic-republic ms-1 p-0'></i> */}
 										{opcion.last_name}
 									</Link>
 								</li>

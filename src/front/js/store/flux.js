@@ -1,19 +1,7 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
-			message: null,
-			demo: [
-				{
-					title: "FIRST",
-					background: "white",
-					initial: "white"
-				},
-				{
-					title: "SECOND",
-					background: "white",
-					initial: "white"
-				}
-			]
+			
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -24,10 +12,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 					try {
 						const resp = await fetch(process.env.BACKEND_URL + url)
 						const data = await resp.json()
-						let llenar = {}
-						llenar[destino] = data
-						setStore(llenar)
-						console.log(data)
+						if (destino !==''){
+							let llenar = {}
+							llenar[destino] = data
+							setStore(llenar)
+						}
+						//console.log(data)
 						return data
 					} catch (error) {
 						return false
@@ -36,7 +26,33 @@ const getState = ({ getStore, getActions, setStore }) => {
 					return store[destino]
 				}
 
+			},
+			solicitudesAPI: async (url, meth, head, bod) => {
+
+				const body = JSON.stringify(bod)
+				//console.log(body)
+				if (url === '/logout') {
+					const token = localStorage.removeItem('jwt-token')
+				}
+
+				console.log(url, meth, head, body);
+				await fetch(process.env.BACKEND_URL + url, {
+					method: meth,
+					headers: head,
+					body: body
+				}).then((resp) => resp.json()).then((data) => {
+					//console.log(data[1])
+					if (data.token) {
+						localStorage.setItem("jwt-token", data.token)
+					}
+					console.log(data)
+					return data
+
+				}).catch((error) => {
+					return 'Hubo un problema con la petición Fetch:' + error.message
+				})
 			}
+			
 		}
 	};
 };

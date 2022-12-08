@@ -65,9 +65,12 @@ def handle_hello():
     members = jackson_family.get_all_members()
     return jsonify(members), 200
 
-@app.route('/member/<int:member_id>/', methods=['GET'])
+@app.route('/member/<int:member_id>', methods=['GET', 'POST'])
 def handle_member(member_id):
     # miembro por id
+    #data = request.get_json()
+    #if request.get_json():
+    #    member_id = data['id']
     member = jackson_family.get_member(member_id)
     return jsonify(member), 200
 

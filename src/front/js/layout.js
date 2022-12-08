@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Home } from "./pages/home";
 import injectContext from "./store/appContext";
 
+import { Member } from "./pages/member";
 
 //create your first component
 const Layout = () => {
@@ -16,6 +17,7 @@ const Layout = () => {
             <BrowserRouter basename={basename}>
                     <Routes>
                         <Route element={<Home />} path="/" />
+                        <Route element={<Member />} path="/member/:theid" />
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>
             </BrowserRouter>
