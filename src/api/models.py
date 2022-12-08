@@ -39,7 +39,6 @@ class Family(db.Model):
         return False
     @classmethod
     def new_member(self, member):
-        print(member)
         new_user = Family(first_name=member['first_name'], last_name= member['last_name'], age= member['age'], lucky_numbers= member['lucky_numbers'])
         db.session.add(new_user)
         db.session.commit()
