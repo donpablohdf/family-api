@@ -24,12 +24,16 @@ class FamilyStructure:
         pass
 
     def delete_member(self, id):
-        # fill this method and update the return
-        pass
+        delete = Family.delete_by_id(id)
+        if delete:
+            return True
+        return False
 
     def get_member(self, id):
-        # fill this method and update the return
-        pass
+        member = Family.get_by_id(id)
+        the_member = Family.serialize(member) 
+        #print(the_member)
+        return the_member
 
     # this method is done, it returns a list with all the family members
     def get_all_members(self):
