@@ -32,6 +32,16 @@ class Family(db.Model):
     @classmethod
     def delete_by_id(self, pid):
         user = self.query.get(pid)
-        db.session.delete(user)
+        if user:
+            db.session.delete(user)
+            db.session.commit()
+            return True
+        return False
+    @classmethod
+    def new_member(self, member):
+        print(member)
+        new_user = Family(first_name=member['first_name'], last_name= member['last_name'], age= member['age'], lucky_numbers= member['lucky_numbers'])
+        db.session.add(new_user)
         db.session.commit()
         return True
+

@@ -98,6 +98,17 @@ def handle_delete():
         return jsonify({"delete": data["id"]}), 200
     return jsonify("No se ha podido borrar"), 400
 
+@app.route('/signup', methods=['POST'])
+@jwt_required()
+def signup_member():
+    data = request.get_json()
+    print(data)
+    new_member = jackson_family.add_member(data)
+   
+    if new_member:
+        return jsonify({"Usuario creado": data}), 200
+    return jsonify("No se ha podido crear"), 400
+
 # this only runs if `$ python src/app.py` is executed
 if __name__ == '__main__':
     load_dotenv()
