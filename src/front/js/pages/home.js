@@ -1,26 +1,60 @@
-import React, { useContext } from "react";
+import React, { useEffect, useContext, useState } from "react";
+import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
-import rigoImageUrl from "../../img/rigo-baby.jpg";
-import "../../styles/home.css";
+
 
 export const Home = () => {
+	const [itemsMenu, setItemsMenu] = useState(["Cargando"])
+
 	const { store, actions } = useContext(Context);
 
+
+	useEffect(() => {
+		// Pido a éste una promesa
+		if (!store.hasOwnProperty("members")) { //comprueba si existe en el store
+			const cumplePromesa = () => {
+				return new Promise((resolve, reject) => {
+					resolve(actions.dataFromAPI('/members', 'members')) // prometo que traigo datos del obj
+				})
+			}
+			cumplePromesa().then((datos) => { 
+				setItemsMenu(datos)
+				
+
+			}
+			)
+		} else {
+
+			setItemsMenu(store.members)
+		}
+	}, [])
+	console.log(itemsMenu)
+
 	return (
-		<div className="text-center mt-5">
-			<h1>Hello Rigo!!</h1>
-			<p>
-				<img src={rigoImageUrl} />
-			</p>
-			<div className="alert alert-info">
-				{store.message || "Loading message from the backend (make sure your python backend is running)..."}
+		<>
+
+			<div className="me-2">
+
+				<div className="d-inline-flex shadow ms-3 mt-3">
+					<ul className="dropdown-menu dropdown-menu-dark d-block position-static shadow w-220px">
+						{itemsMenu.map(
+							(opcion, index) =>
+								<li key={index} className="d-flex justify-content-betweenp-0 m-0">
+
+									<Link className="dropdown-item d-flex gap-2 align-items-end ps-4 py-4" to={"/member/" + opcion.id}>
+										{/* <i class='fab fa-galactic-republic ms-1 p-0'></i> */}
+										{opcion.last_name}
+									</Link>
+								</li>
+						)}
+
+					</ul>
+
+				</div>
+
 			</div>
-			<p>
-				This boilerplate comes with lots of documentation:{" "}
-				<a href="https://start.4geeksacademy.com/starters/react-flask">
-					Read documentation
-				</a>
-			</p>
-		</div>
-	);
+
+		</>
+	)
+
 };

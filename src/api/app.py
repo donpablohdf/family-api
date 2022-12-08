@@ -101,6 +101,7 @@ def handle_delete():
 @app.route('/signup', methods=['POST'])
 @jwt_required()
 def signup_member():
+    #crear miembro
     data = request.get_json()
     print(data)
     new_member = jackson_family.add_member(data)
