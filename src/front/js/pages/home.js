@@ -3,26 +3,20 @@ import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
 
 export const Home = () => {
-  let token = false
+  let token = false;
   const [itemsMenu, setItemsMenu] = useState(["Cargando"]);
 
-  const { store, actions } = useContext(Context);
+  const { actions } = useContext(Context);
   token = localStorage.getItem("jwt-token");
   useEffect(() => {
-    
-    if (!store.hasOwnProperty("members")) {
-      //comprueba si existe en el store
-      const cumplePromesa = () => {
-        return new Promise((resolve, reject) => {
-          resolve(actions.dataFromAPI("/members", "")); // prometo que traigo datos del obj
-        });
-      };
-      cumplePromesa().then((datos) => {
-        setItemsMenu(datos);
+    const cumplePromesa = () => {
+      return new Promise((resolve, reject) => {
+        resolve(actions.dataFromAPI("/members", "")); // prometo que traigo datos del obj
       });
-    } else {
-      setItemsMenu(store.members);
-    }
+    };
+    cumplePromesa().then((datos) => {
+      setItemsMenu(datos);
+    });
   }, [token]);
 
   return (
@@ -41,7 +35,7 @@ export const Home = () => {
               </li>
             ))}
 
-            {(!token) ? (
+            {!token ? (
               <>
                 <li className="d-flex justify-content-betweenp-0 m-0">
                   <Link
@@ -62,7 +56,7 @@ export const Home = () => {
                     LOGOUT
                   </Link>
                 </li>
-				<li className="d-flex justify-content-betweenp-0 m-0">
+                <li className="d-flex justify-content-betweenp-0 m-0">
                   <Link
                     className="dropdown-item d-flex gap-2 align-items-end ps-4 py-4"
                     to={"/signup"}

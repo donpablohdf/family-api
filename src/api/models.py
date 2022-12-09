@@ -1,7 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
-
-
 class Family(db.Model):
           
     __tablename__ = 'family'

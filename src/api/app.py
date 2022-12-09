@@ -1,6 +1,3 @@
-"""
-This module takes care of starting the API Server, Loading the DB and Adding the endpoints
-"""
 import os
 from flask import Flask, request, jsonify, url_for, send_from_directory, make_response
 from flask_cors import CORS
@@ -26,7 +23,6 @@ app.config["JWT_ACCESS_TOKEN_EXPIRES"] = ACCESS_EXPIRES
 app.config['JWT_TOKEN_LOCATION'] = ['headers']
 app.config['JWT_BLACKLIST_ENABLED'] = True
 app.config["JWT_ALGORITHM"] = "HS256"
-#app.config['JWT_IDENTITY_CLAIM'] = 'iss'
 
 app.url_map.strict_slashes = False
 
@@ -67,21 +63,17 @@ def handle_hello():
 
 @app.route('/member/<int:member_id>', methods=['GET', 'POST'])
 def handle_member(member_id):
-    # miembro por id
-    #data = request.get_json()
-    #if request.get_json():
-    #    member_id = data['id']
+    # Ver un miembro
     member = jackson_family.get_member(member_id)
     return jsonify(member), 200
 
 @app.route('/login', methods=['POST', 'GET'])
 def login_user():
+    # Login admin
     data = request.get_json()
-    SECRET = os.getenv('FLASK_APP_KEY')  # variable ENV
-
+    SECRET = os.getenv('FLASK_APP_KEY') 
     if not data:
         return make_response('could not verify', 401, {'WWW.Authentication': 'Basic realm: "login required"'})
-
     user = str(data['username'])
     passw= data['password']
     if user == 'admin' and passw =='1234':
@@ -91,14 +83,13 @@ def login_user():
         return make_response({"token": access_token}), 200
     return make_response('Fallo al verificar usuario',  401, {'WWW.Authentication': 'Basic realm: "login required"'})
 
-@app.route('/delete', methods=['POST'])
+@app.route('/delete/<int:member_id>', methods=['POST','GET'])
 @jwt_required()
-def handle_delete():
+def handle_delete(member_id):
     # Borrar miembro
-    data = request.get_json()
-    delete = jackson_family.delete_member( data["id"])
+    delete = jackson_family.delete_member(member_id)
     if delete:
-        return jsonify({"delete": data["id"]}), 200
+        return jsonify({"delete": member_id}), 200
     return jsonify("No se ha podido borrar"), 400
 
 @app.route('/signup', methods=['POST'])

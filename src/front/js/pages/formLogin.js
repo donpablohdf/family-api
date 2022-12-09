@@ -16,12 +16,9 @@ export const FormLogin = () => {
         const url = '/login'
         const method = 'POST'
         const head = { "Content-Type": "application/json" }
-        //vendrá del formulario
-
         login = actions.solicitudesAPI(url, method, head, data)
         if (login) { history("/private") }
     }
-
 
     return (
         <div className="">

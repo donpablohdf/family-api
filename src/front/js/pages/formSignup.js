@@ -26,7 +26,6 @@ export const FormSignup = () => {
       "Content-Type": "application/json",
       Authorization: "Bearer " + token,
     };
-    //vendrá del formulario
     setitems_py(() => {
       actions.solicitudesAPI(url, method, head, data);
       history("/")
