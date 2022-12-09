@@ -35,7 +35,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					const token = localStorage.removeItem('jwt-token')
 				}
 
-				console.log(url, meth, head, body);
+				//console.log(url, meth, head, body);
 				await fetch(process.env.BACKEND_URL + url, {
 					method: meth,
 					headers: head,
@@ -45,7 +45,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					if (data.token) {
 						localStorage.setItem("jwt-token", data.token)
 					}
-					console.log(data)
+					//console.log(data)
 					return data
 
 				}).catch((error) => {
